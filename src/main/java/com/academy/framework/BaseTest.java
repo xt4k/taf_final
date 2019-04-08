@@ -1,21 +1,23 @@
 package com.academy.framework;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.fail;
 
 public class BaseTest {
+    private static final Logger LOG = LogManager.getLogger(BaseTest.class);
     protected WebDriver driver;
     protected StringBuffer verificationErrors = new StringBuffer();
 
@@ -60,5 +62,16 @@ public class BaseTest {
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
+    }
+
+    @BeforeMethod
+    public void logTestStart(Method method, Object[] params) {
+        LOG.info("Start test {} with parameters {}",
+                method.getName(), Arrays.toString(params));
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void logTestStop(Method method) {
+        LOG.info("Stop test {}", method.getName());
     }
 }
