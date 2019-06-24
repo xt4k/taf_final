@@ -33,7 +33,7 @@ public class BaseTest {
     }
 
     private void initDrivers(String browser) {
-        // Здесь читаю пусть к файлу конфигурации
+        // Здесь читаю пусть к конфигурационному файлу
         String commonProperties = System.getProperty("common.cfg");
         Properties properties = new Properties();
         try {
